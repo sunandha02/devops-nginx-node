@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/devops-nginx-node.git'
+                git 'https://github.com/sunandha02/devops-nginx-node.git'
             }
         }
 
