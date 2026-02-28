@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-node-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-node
+  template:
+    metadata:
+      labels:
+        app: nginx-node
+    spec:
+      containers:
+      - name: nginx-node-container
+        image: sunandha0218/devops-nginx-node:latest
+        ports:
+        - containerPort: 80
