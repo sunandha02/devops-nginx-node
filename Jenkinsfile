@@ -13,19 +13,6 @@ pipeline {
             }
         }
 
-        stage('Push Image') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'USERNAME',
-                    passwordVariable: 'PASSWORD'
-                )]) {
-                    sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
-                    sh 'docker push $DOCKER_IMAGE:latest'
-                }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl apply -f deployment.yaml'
