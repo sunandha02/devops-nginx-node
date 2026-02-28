@@ -13,11 +13,14 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl apply -f service.yaml'
-            }
-        }
+      stage('Deploy to Kubernetes') {
+    steps {
+        sh '''
+        export KUBECONFIG=/var/snap/jenkins/4998/.kube/config
+        kubectl apply -f deployment.yaml --validate=false
+        kubectl apply -f service.yaml --validate=false
+        '''
+    }
+}
     }
 }
