@@ -7,25 +7,21 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-            steps {
-                git 'https://github.com/sunandha02/devops-nginx-node.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t :latest .'
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
             }
         }
 
         stage('Push Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                usernameVariable: 'USERNAME',
-                passwordVariable: 'PASSWORD')]) {
-                    sh 'echo  | docker login -u user --password-stdin'
-                    sh 'docker push :latest'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD'
+                )]) {
+                    sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
+                    sh 'docker push $DOCKER_IMAGE:latest'
                 }
             }
         }
